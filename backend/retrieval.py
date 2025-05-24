@@ -3,6 +3,9 @@ from langchain_core.documents import Document
 from typing_extensions import List, TypedDict
 from langgraph.graph import START, StateGraph
 
+
+from backend.rag_store import vector_store, llm
+
 # Import your vector store and LLM here
 # from backend.llm import llm  # You should define and initialize it in another file or here
 # from backend.vectorstore import vector_store  # Supabase vector store or FAISS, etc.

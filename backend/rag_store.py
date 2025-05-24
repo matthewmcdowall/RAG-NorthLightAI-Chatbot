@@ -6,22 +6,30 @@ import os
 import dotenv
 from langchain_core.documents import Document
 
-from parser import extract_final_urls
-from scraper import scrape
+from backend.parser import extract_final_urls
+from backend.scraper import scrape
+from langchain.chat_models import init_chat_model
+from langchain_community.vectorstores import SupabaseVectorStore
 
 # Load environment variables from .env file
 dotenv.load_dotenv()
 
+supabase_url = os.environ.get("SUPABASE_URL")
+supabase_key = os.environ.get("SUPABASE_SERVICE_KEY")
+supabase: Client = create_client(supabase_url, supabase_key)
 
+embeddings = OpenAIEmbeddings(model="text-embedding-3-large")
 
+llm = init_chat_model("gpt-4o-mini", model_provider="openai")
+
+vector_store = SupabaseVectorStore(
+    client=supabase,
+    embedding=embeddings,
+    table_name="nlai_content",  # You can change this
+    query_name="nlai_match_documents"  # Needs to be created in Supabase SQL
+)
 
 def store_to_db(website="https://northlightai.com"):
-
-    supabase_url = os.environ.get("SUPABASE_URL")
-    supabase_key = os.environ.get("SUPABASE_SERVICE_KEY")
-    supabase: Client = create_client(supabase_url, supabase_key)
-
-    embeddings = OpenAIEmbeddings(model="text-embedding-3-large")
 
     # Clean the table before loading new data
     supabase.table("nlai_content").delete().not_.is_("id", None).execute()

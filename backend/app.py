@@ -1,7 +1,11 @@
 from fastapi import FastAPI, Query
-from retrieval import get_answer
+from backend.retrieval import get_answer
 
-app = FastAPI()
+app = FastAPI(title="NorthLightAI Chatbot")
+
+@app.get("/")
+def root():
+    return {"message": "NorthLightAI Chatbot API"}
 
 @app.get("/chat")
 def chat(query: str = Query(..., description="User question")):

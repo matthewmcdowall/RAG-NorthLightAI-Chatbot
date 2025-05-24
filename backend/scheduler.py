@@ -1,6 +1,6 @@
-from parser import extract_final_urls
-from scraper import scrape_url
-from rag_store import store_to_db
+from backend.parser import extract_final_urls
+from backend.scraper import scrape_url
+from backend.rag_store import store_to_db
 
 def refresh_database(website="https://northlightai.com"):
     urls = extract_final_urls(website)
