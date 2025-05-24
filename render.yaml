@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: northlightai-chatbot
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn backend.app:app --host 0.0.0.0 --port 10000
+
+schedules:
+  - name: Daily DB Refresh
+    command: python backend/scheduler.py
+    schedule: '0 6 * * *'
