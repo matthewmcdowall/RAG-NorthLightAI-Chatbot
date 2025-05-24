@@ -13,8 +13,11 @@ from backend.rag_store import vector_store, llm
 # Define your prompt template
 template = """Use the following pieces of context to answer the question at the end.
 If you don't know the answer, just say that you don't know, don't try to make up an answer.
-Use five sentences maximum and keep the answer as concise as possible.
-Always start the answer with a sentence like "Thanks for asking question about North Light AI!"; but be innovative and each time use a similar welcoming message.
+Use three sentences maximum and keep the answer as concise as possible.
+Always finish your answer with a sort thank you message. 
+Do not answer questions that are not related to the context. 
+If the question is not related to the context, politely say that the chatbot provides information about North Light AI and the answer to that question is not available.
+However, when a general question like "Hi" was asked have a greeting answer and appreciate their interest in North Light AI.
 
 {context}
 

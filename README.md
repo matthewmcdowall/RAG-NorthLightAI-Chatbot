@@ -1,124 +1,84 @@
-# NorthLightAI Chatbot Backend
+# North Light AI Chatbot
 
-This repository contains the **FastAPI-based backend** of the NorthLightAI chatbot. It performs **web scraping**, **sitemap parsing**, **embedding with Gemini**, and **retrieval-augmented generation (RAG)** using LangChain and Supabase.
+This project is a full-stack AI chatbot with a FastAPI backend and a Vite + React + ShadCN UI frontend. It is fully containerized using Docker.
 
----
+## 🐳 How to Run with Docker
 
-## 📁 Project Structure
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/your-username/northlightai_chatbot.git
+cd northlightai_chatbot
+```
+
+### 2. Dockerize the App
+
+Make sure your folder structure looks like this:
 
 ```
-northlightaI_chatbot/
+.
 ├── backend/
-│   ├── __init__.py
-│   ├── app.py              # FastAPI API
-│   ├── parser.py           # Sitemap parsing functions
-│   ├── rag_store.py        # Embedding + Supabase connection
-│   ├── retrieval.py        # LangGraph-based retriever-generator
-│   ├── scheduler.py        # Daily scraper + storage
-│   └── scraper.py          # Web content scraping
-├── frontend/               # (To be implemented)
-├── Notebooks/
-│   └── NorthLightAI_Chatbot.ipynb
-├── .env                    # API keys and Supabase credentials
-├── Dockerfile              # Container setup
-├── requirements.txt        # Python dependencies
-└── render.yaml             # Deployment config (Render + CRON)
+│   ├── app.py
+│   ├── retrieval/
+│   ├── requirements.txt
+│   └── ...
+├── frontend/
+│   └── full_page_frontend/
+│       ├── Dockerfile
+│       ├── package.json
+│       ├── src/
+│       └── ...
+├── Dockerfile           # Backend Dockerfile
+├── docker-compose.yaml
+└── .env
 ```
 
----
-
-## ⚙️ Running Locally (Docker)
-
-### 1. Clone the repository and enter it
+### 3. Build and Run the Containers
 
 ```bash
-git clone <your-repo-url>
-cd northlightaI_chatbot
+docker-compose up --build
 ```
 
-### 2. Add a `.env` file
+This will:
+- Build the backend image from the root `Dockerfile`
+- Build the frontend image from `frontend/full_page_frontend/Dockerfile`
+- Run both containers and connect them via Docker network
 
-Create a `.env` file in the root with the following:
+### 4. Access the App
 
-```env
-SUPABASE_URL=https://your-project.supabase.co
-SUPABASE_KEY=your-supabase-service-role-key
-OPENAI_API_KEY=your-openai-key
-GOOGLE_API_KEY=your-gemini-api-key
+- Frontend: http://localhost:8080
+- Backend: http://localhost:10000
+
+You can test the backend with:
+
+```
+http://localhost:10000/chat?query=hello
 ```
 
-Make sure all values are **valid and unquoted**.
-
----
-
-### 3. Build the Docker container
+### 5. Stop Containers
 
 ```bash
-docker build -t northlight-chatbot .
+docker-compose down
 ```
 
----
-
-### 4. Run the backend
+### 6. Restart Without Rebuilding
 
 ```bash
-docker run --env-file .env -p 10000:10000 northlight-chatbot
+docker-compose up
 ```
 
-You should see:
-
-```
-Uvicorn running on http://0.0.0.0:10000
-```
-
----
-
-## 🧪 Test the API
-
-### Root check:
-
-[http://localhost:10000/](http://localhost:10000/)
-
-Expected response:
-
-```json
-{"message": "NorthLightAI Chatbot API"}
-```
-
-### Ask a question:
-
-[http://localhost:10000/chat?query=What%20is%20North%20Light%20AI](http://localhost:10000/chat?query=What%20is%20North%20Light%20AI)
-
-You should get a chatbot response based on your website’s content.
-
----
-
-## 🔁 Rebuild After Changes
-
-Any time you change `.py` files or `.env`:
+or in detached mode:
 
 ```bash
-docker build -t northlight-chatbot .
-docker run --env-file .env -p 10000:10000 northlight-chatbot
+docker-compose up -d
 ```
 
 ---
 
-## ✅ Deployment Ready
+## 🛠️ Notes
 
-This backend is configured to be deployed on [Render.com](https://render.com) with a scheduled CRON job defined in `render.yaml`.
+- The frontend build uses `serve` to statically serve the Vite build.
+- The backend uses `uvicorn` to serve the FastAPI app.
+- The two services communicate within Docker using the service name (`backend`) instead of `localhost`.
 
----
-
-## 📌 Notes
-
-- Uses LangChain + LangGraph for retrieval + response.
-- Stores website content embeddings in Supabase.
-- Supports dynamic page scraping using `requests` or `selenium`.
-
----
-
-## 🛠️ TODO
-
-- Add a frontend interface
-- Add authentication if deployed publicly
+Happy hacking! 🎉
