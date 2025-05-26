@@ -23,7 +23,7 @@ Make sure your folder structure looks like this:
 │   ├── requirements.txt
 │   └── ...
 ├── frontend/
-│   └── full_page_frontend/
+│   └── playground_frontend/
 │       ├── Dockerfile
 │       ├── package.json
 │       ├── src/
@@ -40,14 +40,15 @@ docker-compose up --build
 ```
 
 This will:
+
 - Build the backend image from the root `Dockerfile`
 - Build the frontend image from `frontend/full_page_frontend/Dockerfile`
 - Run both containers and connect them via Docker network
 
 ### 4. Access the App
 
-- Frontend: http://localhost:8080
-- Backend: http://localhost:10000
+- Frontend: <http://localhost:8080>
+- Backend: <http://localhost:10000>
 
 You can test the backend with:
 

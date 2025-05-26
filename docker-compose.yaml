@@ -13,7 +13,7 @@ services:
 
   frontend:
     build:
-      context: ./frontend/full_page_frontend
+      context: ./frontend/playground_frontend
       dockerfile: Dockerfile
     container_name: chatbot-frontend
     ports:
