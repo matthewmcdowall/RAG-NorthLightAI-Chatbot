@@ -2,7 +2,7 @@
 .env
 
 # Ignore Python virtual environment
-.venv/
+.venv
 
 # Ignore Python bytecode
 __pycache__/
