@@ -7,7 +7,7 @@ import dotenv
 from langchain_core.documents import Document
 
 from backend.parser import extract_final_urls
-from backend.scraper import scrape
+from backend.scraper import scrape_url
 from langchain.chat_models import init_chat_model
 from langchain_community.vectorstores import SupabaseVectorStore
 
@@ -42,7 +42,7 @@ def store_to_db(website="https://northlightai.com"):
 
     for link in tqdm(url_list, desc=f"Scraping & indexing ({company_name})", unit="link"):
         # Scrape the URL
-        text = scrape(link)
+        text = scrape_url(link)
         if not text.strip():
             continue  # skip empty pages
 
